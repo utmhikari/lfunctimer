@@ -1,9 +1,5 @@
 local hook = {}
 
-
-
-
-
 --- see https://www.lua.org/pil/23.3.html
 local function getfuncname(nameinfo)
     if nameinfo.what == "C" then
@@ -22,26 +18,26 @@ function hook.new(lfunctimer)
     local funcnames = {}
     --- &func: { timestamps }
     local functimestack = {}
-    --- max func timestack size
-    local maxstacksize = lfunctimer.maxstacksize or 1024
+    --- ignored functions
+    local ignoredfuncs = {}
     return function (evt, line_nr, lvl)
         lvl = lvl or 2
         local f = debug.getinfo(lvl, "f").func
+        if ignoredfuncs[f] then
+            return
+        end
         if not funcnames[f] then
             local nameinfo = debug.getinfo(2, "Sn")
-            funcnames[f] = getfuncname(nameinfo)
+            local funcname = getfuncname(nameinfo)
+            if not funcname then
+                table.insert(ignoredfuncs, f)
+                return
+            end
+            funcnames[f] = funcname
         end
         if evt == "call" then
             if not functimestack[f] then
                 functimestack[f] = {}
-            else 
-                local len = #functimestack[f]
-                --- if reaches max stack size, only keeps the first one
-                if len >= maxstacksize then
-                    for i = 2, len do
-                        hook[i] = nil
-                    end
-                end
             end
             table.insert(functimestack[f], os.clock())
         elseif evt == "return" then

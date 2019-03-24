@@ -5,7 +5,6 @@
 local debug = require "debug"
 local hook = require "lib.hook"
 
-
 local lfunctimer = {}
 
 lfunctimer.data = {}
