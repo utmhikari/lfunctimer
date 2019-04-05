@@ -1,5 +1,5 @@
 package = "lfunctimer"
-version = "0.0.1"
+version = "0.0.1-1"
 source = {
    url = "git+https://github.com/utmhikari/lfunctimer.git",
 }
@@ -8,7 +8,7 @@ description = {
    detailed = [[
 lfunctimer (Lua Function Timer) is a simple lib aiming to collect the stats 
 of function execution times
-   ]]
+   ]],
    license = "MIT"
 }
 dependencies = {
