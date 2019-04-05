@@ -1,4 +1,3 @@
-package.path = package.path .. ";E:/Projects/Lua/lfunctimer"
 local lfunctimer = require "lfunctimer"
 lfunctimer.start()
 
