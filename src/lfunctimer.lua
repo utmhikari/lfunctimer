@@ -3,7 +3,7 @@
     for further development, take reference to luacov for a better hook~
 ]]
 local debug = require "debug"
-local hook = require "lib.hook"
+local hook = require "lfunctimer.hook"
 
 local lfunctimer = {}
 
