@@ -1,5 +1,5 @@
 package = "lfunctimer"
-version = "0.0.1-1"
+version = "0.0.2-1"
 source = {
    url = "git+https://github.com/utmhikari/lfunctimer.git",
 }
@@ -18,7 +18,8 @@ build = {
    type = "builtin",
    modules = {
       lfunctimer = "src/lfunctimer.lua",
-      ["lfunctimer.hook"] = "src/lfunctimer/hook.lua",
+      ["lfunctimer.hook"] = "src/lfunctimer/hook.c",
+      ["lfunctimer.util"] = "src/lfunctimer/util.lua",
+      ["lfunctimer.config"] = "src/lfunctimer/config.lua",
    },
-   install = {}
 }

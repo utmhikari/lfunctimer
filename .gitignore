@@ -1,1 +1,6 @@
 .editorconfig
+*.o
+*.so
+*.sh
+.vscode/
+test*.lua

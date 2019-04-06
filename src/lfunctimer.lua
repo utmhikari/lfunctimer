@@ -4,34 +4,58 @@
 ]]
 local debug = require "debug"
 local hook = require "lfunctimer.hook"
+local util = require "lfunctimer.util"
+local config = require "lfunctimer.config"
 
+-- hookmask will always be "cr", not clash royale
+local LFUNCTIMER_HOOKMASK = "cr"
+
+-- TODO: add filters
 local lfunctimer = {}
 
+-- TODO: add configuration
+lfunctimer.config = config.default
 lfunctimer.data = {}
 
-function lfunctimer.print()
-    for func_name, exec_time in pairs(lfunctimer.data) do
-        print(func_name .. " ------ " .. tostring(exec_time))
-    end
+-- log message
+function lfunctimer.log(msg)
+    util.log(msg)
 end
 
-function lfunctimer.save(func_name, exec_time)
-    if not lfunctimer.data[func_name] then
-        lfunctimer.data[func_name] = 0
-    end
-    lfunctimer.data[func_name] = lfunctimer.data[func_name] + exec_time
+-- TODO: add custom print function
+function lfunctimer.print_data()
+    util.print_data(lfunctimer.data)
 end
 
-function lfunctimer.start()
-    debug.sethook(hook.new(lfunctimer), "cr")
-end
-
-function lfunctimer.stop()
-    debug.sethook()
-end
-
+-- reset data
 function lfunctimer.reset()
     lfunctimer.data = {}
+end
+
+-- TODO: add custom save function
+function lfunctimer.save(funcname, exectime)
+    if not lfunctimer.data[funcname] then
+        lfunctimer.data[funcname] = 0
+    end
+    lfunctimer.data[funcname] = lfunctimer.data[funcname] + exectime
+end
+
+-- set config
+function lfunctimer.set_config(config)
+    for k, v in pairs(config) do 
+        lfunctimer.config[k] = v
+    end
+end
+
+-- start lfunctimer hook
+function lfunctimer.start()
+    local debug_hook = hook.new(lfunctimer)  -- lazy loading
+    debug.sethook(debug_hook, LFUNCTIMER_HOOKMASK)
+end
+
+-- stop lfunctimer hook
+function lfunctimer.stop()
+    debug.sethook()
 end
 
 return lfunctimer
